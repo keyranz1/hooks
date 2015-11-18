@@ -1,0 +1,24 @@
+{
+    "name": "tikaPahadi/Hooks",
+    "type": "library",
+    "description": "Hooks PHP Framework",
+    "keywords": ["hooks","framework","php"],
+    "homepage": "https://akitech.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tika Pahadi",
+            "email": "tika.pahadi@selu.edu",
+            "homepage": "http://tika.me",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "Monolog": "src"
+        }
+    }
+}
