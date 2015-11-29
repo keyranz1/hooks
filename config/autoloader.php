@@ -5,9 +5,13 @@ if(!function_exists("autoloader")){
 
     function autoloader($class) {
 
-        if (strpos($class,'Razr') === false) {
+        if (strpos($class,'Razr') === false)
+        {
             $file = BASE_DIR . DIRECTORY_SEPARATOR.  "class" . DIRECTORY_SEPARATOR . $class . ".php";
-        } else {
+        }
+
+        else
+        {
             $file = BASE_DIR . DIRECTORY_SEPARATOR.  "class" .DIRECTORY_SEPARATOR. "Razr". DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . $class . ".php";
         }
 

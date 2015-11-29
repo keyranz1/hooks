@@ -1,14 +1,10 @@
 <IfModule mod_rewrite.c>
+
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
 
     RewriteEngine On
-
-    #DirectorySlash Off
-
-    # Redirect Trailing Slashes...
-    #RewriteRule ^(.*)/$ index.html?l=$1 [L]
 
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -18,8 +14,9 @@
 </IfModule>
 
 
-<IfModule mod_deflate.c>
   # Compress HTML, CSS, JavaScript, Text, XML and fonts
+<IfModule mod_deflate.c>
+
   AddOutputFilterByType DEFLATE application/javascript
   AddOutputFilterByType DEFLATE application/rss+xml
   AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
@@ -48,8 +45,3 @@
   BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
   Header append Vary User-Agent
 </IfModule>
-
-#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
-
-#Prepend init....
-#php_value auto_prepend_file "/Volumes/SD/Data/Box Sync/WebProjects/Sites/madeinnepal.dk/public/init.php"

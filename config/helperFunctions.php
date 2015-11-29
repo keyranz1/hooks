@@ -3,8 +3,9 @@ use App\App;
 use Framework\MVC\View;
 use Framework\Services\Image;
 use Framework\Storage\DB;
+use ViewComponents\TestViewComponent;
 
-    function image($path){
+function image($path){
         return new Image($path);
     }
 
@@ -23,4 +24,11 @@ use Framework\Storage\DB;
 
     function view($view = null, $vars = []){
         return new View($view, $vars);
+    }
+
+    function component($component){
+        $component = "ViewComponents\\" . ucfirst($component) . "ViewComponent";
+        $viewComponent = new $component;
+        call_user_func_array(array($viewComponent, "invoke"), []);
+
     }

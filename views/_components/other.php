@@ -1,0 +1,1 @@
+You have loaded components from custom file too.

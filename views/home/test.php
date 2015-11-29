@@ -1,1 +1,6 @@
-Hmm, plain test file.
+Test file.
+
+
+@( component("test") )
+
+@( component("custom") )

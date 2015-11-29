@@ -61,10 +61,10 @@ class View extends MinifyHelper
     public function printView($filePath){
         $controller = strtolower(Globals::getItem("controller"));
         $paths = [
-            BASE_DIR . "/views/shared",
+            BASE_DIR . "/views/_shared",
             BASE_DIR . "/views/" . $controller
         ];
-        $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/views/razr-cache" );
+        $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/views/.razr-cache" );
 
         $page = new \stdClass();
         $page->title = $this->title;
