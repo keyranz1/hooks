@@ -5,15 +5,7 @@ if(!function_exists("autoloader")){
 
     function autoloader($class) {
 
-        if (strpos($class,'Razr') === false)
-        {
-            $file = BASE_DIR . DIRECTORY_SEPARATOR.  "class" . DIRECTORY_SEPARATOR . $class . ".php";
-        }
-
-        else
-        {
-            $file = BASE_DIR . DIRECTORY_SEPARATOR.  "class" .DIRECTORY_SEPARATOR. "Razr". DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . $class . ".php";
-        }
+        $file = BASE_DIR . DIRECTORY_SEPARATOR.  "class" . DIRECTORY_SEPARATOR . $class . ".php";
 
 
         $file = str_replace("/" , DIRECTORY_SEPARATOR, $file);

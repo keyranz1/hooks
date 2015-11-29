@@ -2,21 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="284958f7-4449-45ff-a665-d681fff37968" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/class/Framework/MVC/ViewComponent.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/class/ViewComponents/CustomViewComponent.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/class/ViewComponents/TestViewComponent.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/_components/other.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/_components/test.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/views/services/image.php" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/views/shared/_layout.php" afterPath="$PROJECT_DIR$/views/_shared/_layout.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.htaccess" afterPath="$PROJECT_DIR$/.htaccess" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/composer.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/example/autoload.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/example/child.razr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/example/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/example/parent.razr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/example/partial.razr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/class/Razr/example/template.razr" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/BlockDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/BlockDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/ControlDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/ControlDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/Directive.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/Directive.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/DirectiveInterface.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/DirectiveInterface.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/ExtendDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/ExtendDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/FunctionDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/FunctionDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/IncludeDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/IncludeDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/RawDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/RawDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Directive/SetDirective.php" afterPath="$PROJECT_DIR$/class/Razr/Directive/SetDirective.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Engine.php" afterPath="$PROJECT_DIR$/class/Razr/Engine.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Exception/ExceptionInterface.php" afterPath="$PROJECT_DIR$/class/Razr/Exception/ExceptionInterface.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Exception/InvalidArgumentException.php" afterPath="$PROJECT_DIR$/class/Razr/Exception/InvalidArgumentException.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Exception/RuntimeException.php" afterPath="$PROJECT_DIR$/class/Razr/Exception/RuntimeException.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Exception/SyntaxErrorException.php" afterPath="$PROJECT_DIR$/class/Razr/Exception/SyntaxErrorException.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Extension/CoreExtension.php" afterPath="$PROJECT_DIR$/class/Razr/Extension/CoreExtension.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Extension/ExtensionInterface.php" afterPath="$PROJECT_DIR$/class/Razr/Extension/ExtensionInterface.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Lexer.php" afterPath="$PROJECT_DIR$/class/Razr/Lexer.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Loader/ChainLoader.php" afterPath="$PROJECT_DIR$/class/Razr/Loader/ChainLoader.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Loader/FilesystemLoader.php" afterPath="$PROJECT_DIR$/class/Razr/Loader/FilesystemLoader.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Loader/LoaderInterface.php" afterPath="$PROJECT_DIR$/class/Razr/Loader/LoaderInterface.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Loader/StringLoader.php" afterPath="$PROJECT_DIR$/class/Razr/Loader/StringLoader.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Parser.php" afterPath="$PROJECT_DIR$/class/Razr/Parser.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Storage/FileStorage.php" afterPath="$PROJECT_DIR$/class/Razr/Storage/FileStorage.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Storage/Storage.php" afterPath="$PROJECT_DIR$/class/Razr/Storage/Storage.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Storage/StringStorage.php" afterPath="$PROJECT_DIR$/class/Razr/Storage/StringStorage.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/Token.php" afterPath="$PROJECT_DIR$/class/Razr/Token.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/class/Razr/src/Razr/TokenStream.php" afterPath="$PROJECT_DIR$/class/Razr/TokenStream.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/class/Framework/MVC/View.php" afterPath="$PROJECT_DIR$/class/Framework/MVC/View.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/DBConstants.php" afterPath="$PROJECT_DIR$/config/DBConstants.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/autoloader.php" afterPath="$PROJECT_DIR$/config/autoloader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/constants.php" afterPath="$PROJECT_DIR$/config/constants.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/helperFunctions.php" afterPath="$PROJECT_DIR$/config/helperFunctions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/home/test.php" afterPath="$PROJECT_DIR$/views/home/test.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/home/index.php" afterPath="$PROJECT_DIR$/views/home/index.php" />
     </list>
     <ignored path="hooks.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,102 +63,7 @@
     <favorites_list name="hooks" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="TestViewComponent.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/ViewComponents/TestViewComponent.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.24">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CustomViewComponent.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/ViewComponents/CustomViewComponent.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.68">
-              <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/_components/test.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="36" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViewComponent.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/Framework/MVC/ViewComponent.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.04">
-              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-              <folding>
-                <element signature="e#34#50#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HomeController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/Controllers/HomeController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.2">
-              <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="autoloader.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/config/autoloader.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11072665">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="helperFunctions.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/helperFunctions.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.84">
-              <caret line="31" column="58" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
-              <folding>
-                <element signature="e#6#18#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="View.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/Framework/MVC/View.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-35.2">
-              <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/home/test.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.2">
-              <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -142,7 +73,6 @@
       <list>
         <option value="$PROJECT_DIR$/assets/stylesheets/default.css" />
         <option value="$PROJECT_DIR$/views/shared/_layout.php" />
-        <option value="$PROJECT_DIR$/views/home/index.php" />
         <option value="$PROJECT_DIR$/views/home/image.php" />
         <option value="$PROJECT_DIR$/config/constants.php" />
         <option value="$PROJECT_DIR$/config/DBConstants.php" />
@@ -151,7 +81,6 @@
         <option value="$PROJECT_DIR$/views/_components/test.php" />
         <option value="$PROJECT_DIR$/class/Framework/MVC/Route.php" />
         <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/config/autoloader.php" />
         <option value="$PROJECT_DIR$/config/helperFunctions.php" />
         <option value="$PROJECT_DIR$/class/Controllers/HomeController.php" />
         <option value="$PROJECT_DIR$/class/Framework/MVC/ViewComponent.php" />
@@ -159,6 +88,8 @@
         <option value="$PROJECT_DIR$/views/home/test.php" />
         <option value="$PROJECT_DIR$/class/ViewComponents/CustomViewComponent.php" />
         <option value="$PROJECT_DIR$/views/_components/other.php" />
+        <option value="$PROJECT_DIR$/config/autoloader.php" />
+        <option value="$PROJECT_DIR$/views/home/index.php" />
       </list>
     </option>
   </component>
@@ -218,34 +149,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hooks" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hooks" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hooks" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hooks" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="class" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -256,7 +159,11 @@
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/class/Dependencies" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/class" />
       <recent name="$PROJECT_DIR$/views/_components" />
       <recent name="$PROJECT_DIR$/class/ViewComponents" />
       <recent name="$PROJECT_DIR$/assets/library" />
@@ -300,10 +207,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="989" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -352,14 +259,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/home/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.44">
-          <caret line="59" column="17" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -460,20 +359,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.84">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/helperFunctions.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-19.84">
           <caret line="31" column="58" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
           <folding>
-            <element signature="e#6#18#0#PHP" expanded="true" />
+            <element signature="e#6#18#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -518,10 +409,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/ViewComponents/CustomViewComponent.php">
+    <entry file="file://$PROJECT_DIR$/class/Framework/MVC/ViewComponent.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.68">
-          <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+        <state vertical-scroll-proportion="-23.04">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <element signature="e#34#50#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Razr/Loader/ChainLoader.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -534,20 +435,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/Framework/MVC/ViewComponent.php">
+    <entry file="file://$PROJECT_DIR$/class/ViewComponents/CustomViewComponent.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.04">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#34#50#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-7.68">
+          <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.84">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/autoloader.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11072665">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state vertical-scroll-proportion="-5.12">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/home/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.72">
+          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/ClassLoader.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/autoload_psr4.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/autoload_real.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/autoload_classmap.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/autoload_namespaces.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/autoload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12918109">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/bin/minifycss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/bin/minifyjs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Minify/vendor/composer/installed.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

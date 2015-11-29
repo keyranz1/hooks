@@ -19,7 +19,10 @@
         background: #4d6e78;
         color: #FFF;
     }
-    #cover *{
+    #cover h3,
+    #cover h1,
+    #cover a
+    {
         color: #FFF;
     }
     #page-2{
@@ -68,7 +71,12 @@
 @block('script')
 
 <script>
+    var apple = 1;
 
+    function add( a  , b){
+        return (a + b);
+    }
+    console.log(add(apple , 5));
 </script>
 
 @endblock
