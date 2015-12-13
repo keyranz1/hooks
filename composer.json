@@ -1,7 +1,7 @@
 {
     "name": "akitech/hooks",
     "description": "Hooks is a Powerful yet Lightweight PHP Framework for rapid development.",
-    "type": "library",
+    "type": "project",
     "license": "MIT",
     "homepage": "http://akitech.github.io/hooks/",
     "keywords": ["hooks", "hooksphp"],
@@ -16,7 +16,7 @@
     },
     "extra": {
       "branch-alias": {
-        "dev-master": "0.9.x-dev"
+        "dev-master": "0.9.1"
       }
     },
     "minimum-stability": "stable"
