@@ -3,8 +3,8 @@
     "description": "Hooks is a Powerful yet Lightweight PHP Framework for rapid development.",
     "type": "library",
     "license": "MIT",
-    "homepage": "http://dev.akitech.org",
-    "keywords": ["hooks"],
+    "homepage": "http://tikapahadi.github.io/hooks/",
+    "keywords": ["hooks", "hooksphp"],
     "authors": [
         {
             "name": "Tika Pahadi",
