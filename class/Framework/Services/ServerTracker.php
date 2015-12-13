@@ -8,11 +8,11 @@ use Framework\Storage\DB;
 class ServerTracker
 {
 
-    public static function track()
+    public function track()
     {
         $time = microtime(true) - SERVER_INIT;
-        $url = self::getCompleteURL();
-        $ip = self::getClientIP();
+        $url = $this->getCompleteURL();
+        $ip = $this->getClientIP();
         $ua = $_SERVER['HTTP_USER_AGENT'];
         $data = compact("url","ip","ua","time");
 
@@ -20,7 +20,7 @@ class ServerTracker
             if($time < MAX_CPU_TIME){
                 DB::insertTo(TRACKER_TABLE,$data);
             } else {
-                self::blacklist();
+                $this->blacklist();
             }
         } catch (\Exception $e){
 
@@ -28,7 +28,7 @@ class ServerTracker
 
     }
 
-    public static function getClientIP(){
+    public function getClientIP(){
         if ( isset ($_SERVER['HTTP_CLIENT_IP'] ) )
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
         else if ( isset ($_SERVER['HTTP_X_FORWARDED_FOR'] ) )
@@ -48,15 +48,15 @@ class ServerTracker
 
     }
 
-    public static function getCompleteURL(){
+    public function getCompleteURL(){
         $base_url = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on' ? 'https' : 'http' ) . '://' .  $_SERVER['HTTP_HOST'];
         return $base_url . $_SERVER["REQUEST_URI"];
     }
 
-    public static function blacklist($reason = "Request Time Overload"){
+    public function blacklist($reason = "Request Time Overload"){
 
-        $url = self::getCompleteURL();
-        $ip = self::getClientIP();
+        $url = $this->getCompleteURL();
+        $ip = $this->getClientIP();
         $ua = $_SERVER['HTTP_USER_AGENT'];
         $time = microtime(true)- SERVER_INIT;
         $data = compact("url","ip","ua","time", "reason");
@@ -68,8 +68,18 @@ class ServerTracker
         }
     }
 
-    public static function isBlacklisted(){
-        return DB::exists(BLACKLIST_TABLE,["ip" => self::getClientIP(), "cleared" => 0]);
+    public function isBlacklisted(){
+        return DB::exists(BLACKLIST_TABLE,["ip" => $this->getClientIP(), "cleared" => 0]);
+    }
+
+    public function kill(){
+        die(
+            "<h1>Ooops!</h1>
+            We are sorry but you are blacklisted in our server.
+            Please send a written application to our server admin (".SERVER_ADMIN.")
+            explaining why it happened.
+            We will investigate and look if you can be re-enlisted."
+        );
     }
 
 }

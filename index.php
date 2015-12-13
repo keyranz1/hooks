@@ -23,7 +23,7 @@ require_once __DIR__ . '/config/init.php';
     +                                                                    +
     +   Blacklisted Users do not get to view the resource. Edit this     +
     +   on config/constants.php (FORBID_BLACKLISTED_USERS)               +
-    +   ServerTracker is aliased as Framework\Services\ServerTracker     +
+    +   tracker() is aliased as Framework\Services\ServerTracker         +
     +                                                                    +
     +--------------------------------------------------------------------+
 
@@ -31,14 +31,8 @@ require_once __DIR__ . '/config/init.php';
 
 
 if(FORBID_BLACKLISTED_USERS){
-    if(ServerTracker::isBlacklisted()){
-        die(
-            "<h1>Ooops!</h1>
-            We are sorry but you are blacklisted in our server.
-            Please send a written application to our server admin (".SERVER_ADMIN.")
-            explaining why it happened.
-            We will investigate and look if you can be re-enlisted."
-        );
+    if(tracker()->isBlacklisted()){
+        tracker()->kill();
     }
 }
 
@@ -53,8 +47,7 @@ if(FORBID_BLACKLISTED_USERS){
 
 */
 
-Route::setRoutes($routes);
-Route::route();
+route()->setRoutes($routes)->deliver();
 
 
 /*
@@ -68,5 +61,5 @@ Route::route();
 */
 
 if(TRACK_RESOURCE){
-    ServerTracker::track();
+    tracker()->track();
 }

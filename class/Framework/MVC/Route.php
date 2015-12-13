@@ -8,19 +8,18 @@ class Route{
 
     private static $routes = [];
 
-    public static function route(){
+    public function deliver(){
 
-        $uri = self::projectURI();
+        $uri = $this->projectURI();
 
-        if(!self::routeCustomRoutes($uri)){
-            if(!self::routeMVC($uri)){
+        if(!$this->routeCustomRoutes($uri)){
+            if(!$this->routeMVC($uri)){
                 Redirect::trigger(404);
             }
         }
-
     }
 
-    private static function routeCustomRoutes($uri){
+    private function routeCustomRoutes($uri){
 
         foreach (self::$routes as $alias => $path){
 
@@ -28,13 +27,13 @@ class Route{
 
             //Step 1 of 2: Matching Hard-Codes URLS
             if($alias == $uri){
-                self::routeMVC($path);
+                $this->routeMVC($path);
                 return true;
             }
 
             //Step 2 of 2: Matching Pattens
 
-            if(self::match($alias,$uri)){
+            if($this->match($alias,$uri)){
                 return true;
             }
 
@@ -43,7 +42,7 @@ class Route{
         return false;
     }
 
-    public static function routeMVC($path, $vars = []){
+    public function routeMVC($path, $vars = []){
         $path = trim($path,"/");
         $paths = explode("/",$path);
 
@@ -54,12 +53,12 @@ class Route{
 
             $controllerPath = "Controllers\\" . ucfirst($controller) . "Controller";
 
-            if(self::controllerExists($controller, $method)){
+            if($this->controllerExists($controller, $method)){
 
                 Globals::setItem("controller",$controller);
                 Globals::setItem("method", $method);
 
-                self::injectMVC($controllerPath,$method,$vars);
+                $this->injectMVC($controllerPath,$method,$vars);
 
                 return true;
 
@@ -69,7 +68,7 @@ class Route{
         return false;
     }
 
-    private static function controllerExists($controller, $method){
+    private function controllerExists($controller, $method){
         if (file_exists(BASE_DIR . "/class/controllers/" . ucfirst($controller) . "Controller.php" )){
             $controllerPath = "Controllers\\" . ucfirst($controller) . "Controller";
             if(method_exists($controllerPath,$method)){
@@ -79,7 +78,7 @@ class Route{
         return false;
     }
 
-    private static function injectMVC($controller, $method, $vars){
+    private function injectMVC($controller, $method, $vars){
         $object = new $controller;
         if(method_exists($controller,$method)){
             $view = call_user_func_array(array($object, $method), $vars);
@@ -95,10 +94,10 @@ class Route{
         }
     }
 
-    private static function match($alias, $uri){
-        if(self::isValidAliasForRegEx($alias, $uri)){
+    private function match($alias, $uri){
+        if($this->isValidAliasForRegEx($alias, $uri)){
 
-            $variablesToFetchFromURL = self::variablesToFetchFromURL($alias);
+            $variablesToFetchFromURL = $this->variablesToFetchFromURL($alias);
 
             if(count($variablesToFetchFromURL) > 0){
 
@@ -106,7 +105,7 @@ class Route{
                 foreach($variablesToFetchFromURL as $var){
                     $_alias = str_replace( "{".  $var. "}","$",$_alias);
                 }
-                $variablesFetched = self::extractVariablesFromURL($_alias,$uri);
+                $variablesFetched = $this->extractVariablesFromURL($_alias,$uri);
 
 
                 $matchedVariables = [];
@@ -119,7 +118,7 @@ class Route{
                     }
 
                     $aliasedMVCRoute = self::$routes[$alias];
-                    self::routeMVC($aliasedMVCRoute, $matchedVariables);
+                    $this->routeMVC($aliasedMVCRoute, $matchedVariables);
 
                     return true;
                 }
@@ -131,7 +130,7 @@ class Route{
         return false;
     }
 
-    private static function isValidAliasForRegEx($alias, $uri){
+    private function isValidAliasForRegEx($alias, $uri){
         return
             $alias !== "" &&                                                //Not Empty
             substr_count($uri, "/") ===  substr_count($alias, "/") &&       //Both have equal /
@@ -141,14 +140,14 @@ class Route{
 
     }
 
-    private static function variablesToFetchFromURL($alias){
+    private function variablesToFetchFromURL($alias){
         $expression = "/{([a-zA-Z0-9-:]+)}/";
         preg_match_all($expression, $alias, $matches);
 
         return $matches[1];
     }
 
-    private static function extractVariablesFromURL($pattern,$input){
+    private function extractVariablesFromURL($pattern,$input){
         $delimiter = rand();
         while (strpos($input,$delimiter) !== false) {
             $delimiter++;
@@ -164,13 +163,14 @@ class Route{
         return $responses;
     }
 
-    public static function setRoutes($routes)
+    public function setRoutes($routes)
     {
         self::$routes = $routes;
+        return $this;
     }
 
-    private static function projectURI(){
-        $realPath = parse_url(self::completeURL(), PHP_URL_PATH);
+    private function projectURI(){
+        $realPath = parse_url($this->completeURL(), PHP_URL_PATH);
         $projectFolder = basename(BASE_DIR);
         $paths = explode($projectFolder,$realPath);
 
@@ -179,7 +179,7 @@ class Route{
 
     }
 
-    private static function completeURL(){
+    private function completeURL(){
         return trim($_SERVER['REQUEST_SCHEME'] . "://" .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],"/");
     }
 

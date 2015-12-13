@@ -1,4 +1,5 @@
 <?php
+
 $routes = [
     "/"=> "Home/index",
     "tests/{file}" => "home/tests",

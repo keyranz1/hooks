@@ -48,10 +48,11 @@
     <div id="cover">
         <div class="vertical-center">
             <h3>Hi, there, you have landed!</h3>
-            <h1>Welcome, to Hooks.</h1>
+            <h1>Welcome, to @( $app.name ) by Hooks.</h1>
             <a href="#page-2">Read more</a>
         </div>
     </div>
+
 
     <div id="page-2">
         <h1>Some Facts</h1>

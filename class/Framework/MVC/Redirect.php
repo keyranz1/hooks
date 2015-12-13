@@ -16,11 +16,11 @@ class Redirect
     static function trigger($num){
         switch($num){
             case 404:
-                Route::routeMVC("home/error404");
+                route()->routeMVC("home/error404");
                 break;
 
             case 500:
-                Route::routeMVC("home/error500");
+                route()->routeMVC("home/error500");
                 break;
 
             default:

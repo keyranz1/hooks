@@ -1,7 +1,10 @@
 <?php
 use App\App;
+use Framework\MVC\Redirect;
+use Framework\MVC\Route;
 use Framework\MVC\View;
 use Framework\Services\Image;
+use Framework\Services\ServerTracker;
 use Framework\Storage\DB;
 use ViewComponents\TestViewComponent;
 
@@ -31,4 +34,16 @@ function image($path){
         $viewComponent = new $component;
         call_user_func_array(array($viewComponent, "invoke"), []);
 
+    }
+
+    function route(){
+        return new Route();
+    }
+
+    function redirect(){
+        return new Redirect();
+    }
+
+    function tracker(){
+        return new ServerTracker();
     }

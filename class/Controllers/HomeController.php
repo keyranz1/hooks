@@ -10,6 +10,12 @@
 
 
         public function index(){
+            $app = new \stdClass();
+            $app->name = "my app";
+            return view("home/index",["app" => $app]);
+        }
+
+        public function doc(){
             return view();
         }
 
