@@ -35,7 +35,7 @@ class View extends MinifyHelper
         if($this->view === null){
             self::includeMVCView();
         } else {
-            $filePath = BASE_DIR . "/views/" .  $this->view . ".php";
+            $filePath = BASE_DIR . "/Views/" .  $this->view . ".php";
             self::includeRequestedView($filePath);
         }
 
@@ -52,7 +52,7 @@ class View extends MinifyHelper
         $controller = strtolower(Globals::getItem("controller"));
         $method = strtolower(Globals::getItem("method"));
 
-        $filePath = BASE_DIR . "/views/" .  $controller . "/" . $method . ".php";
+        $filePath = BASE_DIR . "/Views/" .  $controller . "/" . $method . ".php";
         self::includeRequestedView($filePath);
     }
 
@@ -60,15 +60,15 @@ class View extends MinifyHelper
     public function printView($filePath){
         $controller = strtolower(Globals::getItem("controller"));
         $paths = [
-            BASE_DIR . "/views/_shared",
-            BASE_DIR . "/views/" . $controller
+            BASE_DIR . "/Views/_shared",
+            BASE_DIR . "/Views/" . $controller
         ];
 
-        if(!File::exists(BASE_DIR . "/views/.razr-cache")){
-            File::makeDirectory(BASE_DIR . "/views/.razr-cache");
+        if(!File::exists(BASE_DIR . "/Views/.razr-cache")){
+            File::makeDirectory(BASE_DIR . "/Views/.razr-cache");
         }
 
-        $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/views/.razr-cache" );
+        $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/Views/.razr-cache" );
 
         $page = new \stdClass();
         $page->title = $this->title;
