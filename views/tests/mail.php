@@ -1,7 +1,7 @@
 <?php
 
 
-use Framework\Mail;
+use hooks\Mail;
 
 $mail = new Mail();
 /*

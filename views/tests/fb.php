@@ -2,7 +2,7 @@
 
 
     namespace App;
-    use Framework\Social\FacebookUtils;
+    use hooks\Social\FacebookUtils;
 
 
     $fb = new FacebookUtils();

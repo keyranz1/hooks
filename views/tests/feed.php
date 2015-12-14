@@ -1,6 +1,6 @@
 <?php
 
-use \Framework\Social\Feed;
+use \hooks\Social\Feed;
 
 
 $feed = Feed::getAllFeeds();

@@ -1,6 +1,6 @@
 <?php
 
-use \Framework\Storage\File;
+use \hooks\Storage\File;
 
 
 $files = File::uploadFiles();

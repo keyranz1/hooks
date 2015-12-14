@@ -1,12 +1,10 @@
 <?php
 
-
 if(!function_exists("autoloader")){
 
     function autoloader($class) {
 
-        $file = BASE_DIR . DIRECTORY_SEPARATOR.  "class" . DIRECTORY_SEPARATOR . $class . ".php";
-
+        $file = BASE_DIR . DIRECTORY_SEPARATOR . $class . ".php";
 
         $file = str_replace("/" , DIRECTORY_SEPARATOR, $file);
         $file = str_replace("\\" , DIRECTORY_SEPARATOR, $file);

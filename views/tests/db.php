@@ -3,7 +3,7 @@
 
     namespace App;
 
-    use Framework\DB;
+    use hooks\DB;
 
 
 

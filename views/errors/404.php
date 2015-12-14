@@ -1,7 +1,7 @@
-@extend("_layout")
+@extend("_layout.php")
 
 @block('content')
 
-    <h1>404</h1>
+    <h1>404 - Page Not found</h1>
 
 @endblock

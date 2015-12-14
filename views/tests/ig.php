@@ -1,6 +1,6 @@
 <?php
 
-use Framework\Social\Instagram;
+use hooks\Social\Instagram;
 
 
 

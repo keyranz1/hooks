@@ -16,14 +16,14 @@
 */
 
 require_once __DIR__ . '/config/init.php';
-
+require_once BASE_DIR . '/vendor/autoload.php';
 
 /*
     +--------------------------------------------------------------------+
     +                                                                    +
     +   Blacklisted Users do not get to view the resource. Edit this     +
     +   on config/constants.php (FORBID_BLACKLISTED_USERS)               +
-    +   tracker() is aliased as Framework\Services\ServerTracker         +
+    +   tracker() is aliased as hooks\Services\ServerTracker         +
     +                                                                    +
     +--------------------------------------------------------------------+
 
@@ -41,13 +41,13 @@ if(FORBID_BLACKLISTED_USERS){
     +--------------------------------------------------------------------+
     +                                                                    +
     +   Everything Clear? Let's Route the URL from Route class below:    +
-    +   Route class is aliased as Framework\MVC\Route                    +
+    +   Route class is aliased as hooks\MVC\Route                    +
     +                                                                    +
     +--------------------------------------------------------------------+
 
 */
 
-route()->setRoutes($routes)->deliver();
+route()->setRoutes(routes)->deliver();
 
 
 /*

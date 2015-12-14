@@ -1,49 +1,51 @@
 <?php
-use App\App;
-use Framework\MVC\Redirect;
-use Framework\MVC\Route;
-use Framework\MVC\View;
-use Framework\Services\Image;
-use Framework\Services\ServerTracker;
-use Framework\Storage\DB;
-use ViewComponents\TestViewComponent;
 
-function image($path){
-        return new Image($path);
-    }
+use hooks\MVC\Redirect;
+use hooks\MVC\Route;
+use hooks\MVC\View;
+use hooks\Services\Image;
+use hooks\Services\ServerTracker;
+use hooks\Storage\DB;
+use Models\App;
 
-    function getImageSrc($path, $width = null,  $height = null, $aspect = true){
-        $image = new Image($path);
-        return $image->height($height)->width($width)->aspect($aspect)->src();
-    }
 
-    function app(){
-        return new App();
-    }
+function image(string $path) : Image{
+    return new Image($path);
+}
 
-    function db(){
-        return new DB();
-    }
+/*
+function getImageSrc($path, $width = null,  $height = null, $aspect = true){
+    $image = new Image($path);
+    return $image->height($height)->width($width)->aspect($aspect)->src();
+}
+*/
 
-    function view($view = null, $vars = []){
-        return new View($view, $vars);
-    }
+function app() : App{
+    return new App();
+}
 
-    function component($component){
-        $component = "ViewComponents\\" . ucfirst($component) . "ViewComponent";
-        $viewComponent = new $component;
-        call_user_func_array(array($viewComponent, "invoke"), []);
+function db() : DB{
+    return new DB();
+}
 
-    }
+function view($view = null, $vars = []){
+    return new View($view, $vars);
+}
 
-    function route(){
-        return new Route();
-    }
+function component(string $component){
+    $component = "ViewComponents\\" . ucfirst($component) . "ViewComponent";
+    $viewComponent = new $component;
+    call_user_func_array(array($viewComponent, "invoke"), []);
+}
 
-    function redirect(){
-        return new Redirect();
-    }
+function route() : Route{
+    return new Route();
+}
 
-    function tracker(){
-        return new ServerTracker();
-    }
+function redirect() : Redirect{
+    return new Redirect();
+}
+
+function tracker() : ServerTracker{
+    return new ServerTracker();
+}
