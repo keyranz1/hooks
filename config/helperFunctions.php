@@ -1,12 +1,12 @@
 <?php
 
+use hooks\Media\Image;
 use hooks\MVC\Redirect;
 use hooks\MVC\Route;
 use hooks\MVC\View;
-use hooks\Services\Image;
-use hooks\Services\ServerTracker;
 use hooks\Storage\DB;
 use Models\App;
+use hooks\Services\Tracker;
 
 
 function image(string $path) : Image{
@@ -46,6 +46,6 @@ function redirect() : Redirect{
     return new Redirect();
 }
 
-function tracker() : ServerTracker{
-    return new ServerTracker();
+function tracker() : Tracker{
+    return new Tracker();
 }

@@ -7,10 +7,7 @@ if(!isset($_SESSION)){
     session_start();
 }
 
-if( ! ini_get('date.timezone') )
-{
-    date_default_timezone_set('America/Chicago');
-}
+date_default_timezone_set('America/Chicago');
 
 if(!defined("BASE_DIR")){
     define("BASE_DIR", dirname(__DIR__));

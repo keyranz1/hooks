@@ -11,7 +11,7 @@ class CustomViewComponent extends ViewComponent
     {
 
         $this->registeredVariables = ["name" => "John"];
-        $this->componentFile = "other";
+        $this->componentFile = "custom"; //optional if name matches
     }
 
 

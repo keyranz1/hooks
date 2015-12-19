@@ -1,46 +1,46 @@
 <?php
 
-namespace hooks\Services;
+namespace hooks\Media;
 
-use hooks\Storage\File;
-use hooks\Storage\Session;
+use hooks\Storage\FileSystem;
 
-class Image
+
+class Image extends File
 {
-    private $file,                  //string
-            $height,                //int
-            $width,                 //int
-            $preserveAspectRatio = true;  //bool
+    protected $path,                  //string
+        $height,                //int
+        $width,                 //int
+        $preserveAspectRatio = true;  //bool
 
-    private $originalHeight, $originalWidth, $imageType, $resizeRatio;
-    private $thumb;
+    protected $originalHeight, $originalWidth, $imageType, $resizeRatio;
+    protected $thumb;
 
 
-    public function __construct($file)
+    public function __construct($path)
     {
-
-        $this->file = File::getRealPath($file);
-
+        parent::__construct($path);
     }
 
     public function src(){
-        $this->prepare();
 
-        if(!File::exists( "assets/temp-img/" . $this->tempFileName())){
+        $this->prepare();
+        $temp = $this->tempFileName();
+
+        if(!FileSystem::exists( "assets/temp-img/" . $temp)){
             $this->prepareFromImageType();
             $this->crop();
         }
 
         //URL
-        return BASE_URL . "/image/" . $this->tempFileName();
+        return BASE_URL . "image/" . $temp;
 
     }
 
     public static function deliver($imageFile){
 
-        $imageFile = File::getRealPath($imageFile);
+        $imageFile = FileSystem::getRealPath($imageFile);
 
-        if (File::exists($imageFile)) {
+        if (FileSystem::exists($imageFile)) {
 
             $imageInfo = getimagesize($imageFile);
 
@@ -69,7 +69,8 @@ class Image
 
     private function prepare(){
 
-        $image_properties = getimagesize($this->file);
+        $image_properties = getimagesize($this->path);
+
         $this->originalWidth = $image_properties[0];
         $this->originalHeight = $image_properties[1];
         $this->resizeRatio = $this->originalWidth / $this->originalHeight;
@@ -87,13 +88,13 @@ class Image
 
         switch($this->imageType){
             case "image/jpeg":
-                $this->thumb = imagecreatefromjpeg($this->file); //jpeg file
+                $this->thumb = imagecreatefromjpeg($this->path); //jpeg file
                 break;
             case "image/gif":
-                $this->thumb = imagecreatefromgif($this->file); //gif file
+                $this->thumb = imagecreatefromgif($this->path); //gif file
                 break;
             case "image/png":
-                $this->thumb = imagecreatefrompng($this->file); //png file
+                $this->thumb = imagecreatefrompng($this->path); //png file
                 break;
             default:
                 die("Only jpeg, png and gif is supported");
@@ -105,13 +106,13 @@ class Image
     private function tempFileName(){
         switch($this->imageType){
             case  "image/jpeg":
-                return  md5($this->file) . "." . $this->width . "x" . $this->height . "." . $this->preserveAspectRatio . ".jpg";
+                return  md5($this->path) . "." . $this->width . "x" . $this->height . "." . $this->preserveAspectRatio . ".jpg";
 
             case  "image/png":
-                return  md5($this->file) . "." . $this->width . "x" . $this->height. "." . $this->preserveAspectRatio . ".png";
+                return  md5($this->path) . "." . $this->width . "x" . $this->height. "." . $this->preserveAspectRatio . ".png";
 
             case  "image/gif":
-                return md5($this->file) . "." . $this->width . "x" . $this->height . "." . $this->preserveAspectRatio . ".gif";
+                return md5($this->path) . "." . $this->width . "x" . $this->height . "." . $this->preserveAspectRatio . ".gif";
 
             default:
                 return null;
@@ -131,6 +132,10 @@ class Image
     }
 
     private function saveTempImage($thumbnail){
+
+        if(!FileSystem::exists("assets/temp-img/")){
+            FileSystem::makeDirectory("assets/temp-img/");
+        }
 
         $fileName =  "assets/temp-img/" . $this->tempFileName();
 
@@ -200,8 +205,6 @@ class Image
         return $thumbnail;
 
     }
-
-
 
     public function height($height){
         $this->height = $height;

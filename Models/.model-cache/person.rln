@@ -1,0 +1,5 @@
+{
+    "image": "hooks\\Media\\Image",
+    "item": "Models\\Context\\Item",
+    "timestamp": "DateTime"
+}

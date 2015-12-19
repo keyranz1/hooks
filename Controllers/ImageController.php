@@ -4,9 +4,9 @@
 namespace Controllers;
 
 
+use hooks\Media\Image;
 use hooks\MVC\Controller;
-use hooks\Services\Image;
-use hooks\Storage\File;
+use hooks\Storage\FileSystem;
 
 class ImageController extends Controller
 {
@@ -15,7 +15,7 @@ class ImageController extends Controller
 
         $file = "assets/temp-img/" . $file;
 
-        if(File::exists( $file)){
+        if(FileSystem::exists( $file)){
 
             Image::deliver($file);
 

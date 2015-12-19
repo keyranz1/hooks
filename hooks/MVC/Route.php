@@ -2,7 +2,7 @@
 
 namespace hooks\MVC;
 
-use hooks\Storage\File;
+use hooks\Storage\FileSystem;
 use hooks\Storage\Globals;
 
 class Route{
@@ -76,7 +76,7 @@ class Route{
     }
 
     private function controllerExists($controller, $method){
-        if (File::exists(BASE_DIR . "/Controllers/" . ucfirst($controller) . "Controller.php" )){
+        if (FileSystem::exists(BASE_DIR . "/Controllers/" . ucfirst($controller) . "Controller.php" )){
             $controllerPath = "Controllers\\" . ucfirst($controller) . "Controller";
             if(method_exists($controllerPath,$method)){
                 return true;
@@ -127,9 +127,7 @@ class Route{
                     }
 
                     $aliasedMVCRoute = $this->routes[$alias];
-                    $this->routeMVC($aliasedMVCRoute, $matchedVariables);
-
-                    return true;
+                    return $this->routeMVC($aliasedMVCRoute, $matchedVariables);
                 }
             }
 

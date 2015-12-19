@@ -1,4 +1,4 @@
-@extend("_layout.php")
+@extend("_layout")
 
 @block('content')
 

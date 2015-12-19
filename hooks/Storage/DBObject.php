@@ -13,7 +13,7 @@ abstract class DBObject
     {
         if($this->dbTable == null){
             $class = explode("\\",get_class($this));
-            $this->dbTable = strtolower($class[count($class) - 1]); //Last part of name: /App/Client
+            $this->dbTable = end($class); //End Part of class
         }
         if($this->dbPrimaryKey == null){
             $this->dbPrimaryKey();
@@ -86,9 +86,30 @@ abstract class DBObject
 
     }
 
-    public function toJson(){
+
+    public function __toString(){
         $props = get_object_vars($this);
         return json_encode($props);
+    }
+
+    public function __get($name)
+    {
+        if(isset($this->$name)){
+            return $this->$name;
+        } else {
+            die("Property " . $name . " does not exist in " . get_class($this) . " at line <strong>" .
+                __LINE__ . "</strong> in file <strong>" . __FILE__ . "</strong>");
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        if(isset($this->$name)){
+            $this->$name = $value;
+        } else {
+            die("Property " . $name . " does not exist in " . get_class($this) . " at line <strong>" .
+                __LINE__ . "</strong> in file <strong>" . __FILE__ . "</strong>");
+        }
     }
 
 

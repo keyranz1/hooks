@@ -4,7 +4,7 @@
 namespace hooks\MVC;
 
 
-use hooks\Storage\File;
+use hooks\Storage\FileSystem;
 use hooks\Storage\Globals;
 use Razr\Engine;
 use Razr\Loader\FilesystemLoader;
@@ -42,7 +42,7 @@ class View extends MinifyHelper
     }
 
     private function includeRequestedView($filePath){
-        if(File::exists($filePath)){
+        if(FileSystem::exists($filePath)){
             self::printView($filePath);
         }
     }
@@ -64,8 +64,8 @@ class View extends MinifyHelper
             BASE_DIR . "/Views/" . $controller
         ];
 
-        if(!File::exists(BASE_DIR . "/Views/.razr-cache")){
-            File::makeDirectory(BASE_DIR . "/Views/.razr-cache");
+        if(!FileSystem::exists(BASE_DIR . "/Views/.razr-cache")){
+            FileSystem::makeDirectory(BASE_DIR . "/Views/.razr-cache");
         }
 
         $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/Views/.razr-cache" );

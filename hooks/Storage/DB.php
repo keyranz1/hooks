@@ -7,31 +7,34 @@ require_once BASE_DIR.'/config/DBConstants.php';
 
 class DB extends DBWrapper{
 
-    private static $pdo = null;
+    protected $pdo = null;
+    public $useTransactions = true;
+    protected $errors = [];
+    protected $results = [];
 
-    public static function getInstance(){
-        if(self::$pdo == null){
-            self::PDOConnect();
-        }
-        return self::$pdo;
-    }
-
-    private static function PDOConnect(){
+    public function __construct($host = DB_HOST, $db = DB_NAME, $user = DB_USER, $pass = DB_PASS){
         try{
-            self::$pdo = new \PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
-            self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            self::$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            $this->pdo = new \PDO($host.';dbname='.$db, $user, $pass);
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
         } catch (\Exception $e){
             die("Database Connection Failed");
         }
     }
 
-    public static function lastInsertedId(){
-        return DB::$pdo->lastInsertId();
+    public function __destruct(){
+        $this->pdo = null;
     }
 
-    public static function processParams($params){
+    public function getInstance() : \PDO{
+        return $this->pdo;
+    }
 
+    public function lastInsertedId(){
+        return $this->getInstance()->lastInsertId();
+    }
+
+    public function processParams($params){
 
         if(count($params) > 0){
 
@@ -58,7 +61,7 @@ class DB extends DBWrapper{
                             $key = $value[0];
                             $operator = $value[1];
                             $value = $value[2];
-                            $paramId = $key . rand(0,9999);
+                            $paramId = $key . rand(0,99999);
 
                             $sql .= " " . $key. " " . $operator . " :" . $paramId ." && "; // name = :name_987
                             $DBParams[ ":" . $paramId ] = $value;               // $DBParams[":name"_987] = "Tika"
@@ -66,7 +69,7 @@ class DB extends DBWrapper{
 
                     } else {
                         $operator = "=";
-                        $paramId = $key . rand(0,9999);
+                        $paramId = $key . rand(0,99999);
 
                         $sql .= " " . $key. " " . $operator . " :" . $paramId ." && "; // name = :name_987
                         $DBParams[ ":" . $paramId ] = $value;               // $DBParams[":name"_987] = "Tika"
@@ -88,10 +91,10 @@ class DB extends DBWrapper{
 
     }
 
-    public static function getFrom($tbl, $params = array(), $limit = null, $sort = null, $class = null, $select = "*"){
+    public function getFrom($tbl, $params = array(), $limit = null, $sort = null, $class = null, $select = "*"){
         $sql = "SELECT " . $select . " FROM ". $tbl;
 
-        $processedParams = self::processParams($params);
+        $processedParams = $this->processParams($params);
         if($processedParams === null){
             $DBParams = [];
         } else {
@@ -111,9 +114,7 @@ class DB extends DBWrapper{
             $sql .= " LIMIT ".$limit;
         }
 
-
-
-        $stm = self::getInstance()->prepare($sql);
+        $stm = $this->getInstance()->prepare($sql);
         $stm->execute($DBParams);
         if($class === null){
             return $stm->fetchAll(\PDO::FETCH_OBJ);
@@ -122,16 +123,16 @@ class DB extends DBWrapper{
         }
     }
 
-    public static function save($tbl, $fields, $params){
+    public function save($tbl, $fields, $params){
 
-        if(DB::exists($tbl, $params)){
-            return DB::updateTo($tbl, $fields, $params);
+        if($this->exists($tbl, $params)){
+            return $this->updateTo($tbl, $fields, $params);
         } else {
-            return DB::insertTo($tbl, $fields);
+            return $this->insertTo($tbl, $fields);
         }
     }
 
-    public static function insertTo($tbl, $fields){
+    public function insertTo($tbl, $fields){
         $sql = "INSERT INTO " . $tbl ;
         $keys = ""; $vals = "";
 
@@ -148,18 +149,10 @@ class DB extends DBWrapper{
 
         $sql .= " (" . $keys . ") VALUES (" . $vals .")";
 
-
-        $stm = self::getInstance()->prepare($sql);
-        try{
-            $stm->execute($DBparams);
-            return true;
-        } catch (\Exception $e){
-            return $e->getMessage();
-        }
-
+        $this->query($sql,$DBparams);
     }
 
-    public static function updateTo($tbl, $fields, $params, $limit = null){
+    public function updateTo($tbl, $fields, $params, $limit = null){
         $sql = "UPDATE " . $tbl ." SET" ;
 
         $DBParams = array();
@@ -171,7 +164,7 @@ class DB extends DBWrapper{
 
         $sql = rtrim($sql,", ");
 
-        $processedParams = self::processParams($params);
+        $processedParams = $this->processParams($params);
         if($processedParams !== null){
             $DBParams = array_merge($DBParams,$processedParams['DBParams']);
             $sql .= $processedParams['sql'];
@@ -182,22 +175,13 @@ class DB extends DBWrapper{
             $sql .= " LIMIT ".$limit;
         }
 
-        $stm = self::getInstance()->prepare($sql);
-        try{
-            $stm->execute($DBParams);
-            self::$pdo->errorInfo();
-            return true;
-        } catch (\Exception $e){
-            return $e->getMessage();
-        }
-
-
+        return $this->query($sql,$DBParams);
     }
 
-    public static function deleteFrom($tbl, $params = array(), $limit = null){
+    public function deleteFrom($tbl, $params = array(), $limit = null){
         $sql = "DELETE FROM ". $tbl;
 
-        $processedParams = self::processParams($params);
+        $processedParams = $this->processParams($params);
         if($processedParams === null){
             $DBParams = [];
         } else {
@@ -210,13 +194,11 @@ class DB extends DBWrapper{
             $sql .= " LIMIT ".$limit;
         }
 
-
-        $stm = self::getInstance()->prepare($sql);
-        return $stm->execute($DBParams);
+        return $this->query($sql,$DBParams);
     }
 
-    public static function exists($tbl,$params){
-        $items = self::getFrom($tbl,$params);
+    public function exists($tbl,$params){
+        $items = $this->getFrom($tbl,$params);
         if(count($items) >= 1){
             return true;
         } else {
@@ -224,7 +206,7 @@ class DB extends DBWrapper{
         }
     }
 
-    public static function filter($array, $key){
+    public function filter($array, $key){
 
         foreach($array as $index => $item){
 
@@ -241,15 +223,48 @@ class DB extends DBWrapper{
 
     }
 
-    public static function getColumns($tbl){
+    public function getColumns($tbl){
         $sql = "SHOW COLUMNS FROM ". $tbl;
         try{
-            $stm = self::getInstance()->prepare($sql);
+            $stm = $this->getInstance()->prepare($sql);
             $stm->execute();
             return $stm->fetchAll(\PDO::FETCH_OBJ);
         } catch (\Exception $e){
             return [];
         }
+    }
+
+    public function getTables($db){
+        $sql = "SHOW TABLES FROM ". $db;
+        try{
+            $stm = $this->getInstance()->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll(\PDO::FETCH_OBJ);
+        } catch (\Exception $e){
+            return [];
+        }
+    }
+
+    public function query(string $sql, array $params = []){
+
+        if($this->useTransactions){
+            $this->getInstance()->beginTransaction();
+        }
+
+        $stm = $this->getInstance()->prepare($sql);
+
+        try{
+            $stm->execute($params);
+            return $stm->fetchAll(\PDO::FETCH_OBJ);
+        } catch (\PDOException $e){
+            $this->errors[] = $e->getMessage();
+            return false;
+        }
+
+    }
+
+    public function commit(){
+        $this->getInstance()->commit();
     }
 
 }

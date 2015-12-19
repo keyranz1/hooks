@@ -3,9 +3,7 @@
 
 namespace hooks\Services;
 
-use hooks\Storage\DB;
-
-class ServerTracker
+class Tracker
 {
 
     public function track()
@@ -18,7 +16,7 @@ class ServerTracker
 
         try{
             if($time < MAX_CPU_TIME){
-                DB::insertTo(TRACKER_TABLE,$data);
+                db()->insertTo(TRACKER_TABLE,$data);
             } else {
                 $this->blacklist();
             }
@@ -62,14 +60,14 @@ class ServerTracker
         $data = compact("url","ip","ua","time", "reason");
 
         try{
-            DB::insertTo(BLACKLIST_TABLE,$data);
+            db()->insertTo(BLACKLIST_TABLE,$data);
         } catch (\Exception $e){
 
         }
     }
 
     public function isBlacklisted(){
-        return DB::exists(BLACKLIST_TABLE,["ip" => $this->getClientIP(), "cleared" => 0]);
+        return db()->exists(BLACKLIST_TABLE,["ip" => $this->getClientIP(), "cleared" => 0]);
     }
 
     public function kill(){

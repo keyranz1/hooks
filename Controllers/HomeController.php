@@ -19,8 +19,8 @@
             return view("home/image");
         }
 
-        public function test(){
-            return view();
+        public function tests($file){
+            return view("tests/" . $file);
         }
 
 
