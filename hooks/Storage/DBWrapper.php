@@ -63,18 +63,26 @@ abstract class DBWrapper
         if($this->isExecuted){
             return $this;
         }
+
         $this->isExecuted = true;
+
+        $db = db();
+
         if($this->select !== null){
-            $this->results = db()->getFrom($this->table, $this->params, $this->limit, $this->sort, $this->object, $this->select );
+            $this->results = $db->getFrom($this->table, $this->params, $this->limit, $this->sort, $this->object, $this->select );
             return $this;
         }
 
         if($this->update !== null){
-            return db()->updateTo($this->table, $this->update, $this->params, $this->limit);
+            if($db->updateTo($this->table, $this->update, $this->params, $this->limit)){
+                $db->commit();
+            }
         }
 
         if($this->delete !== null){
-            return db()->deleteFrom($this->table, $this->params, $this->limit);
+            if($db->deleteFrom($this->table, $this->params, $this->limit)){
+                $db->commit();
+            }
         }
 
     }
@@ -96,6 +104,22 @@ abstract class DBWrapper
         } else {
             return null;
         }
+    }
+
+    public function firstOrDefault(){
+        $first = $this->first();
+        if($first == null){
+            $first = new get_called_class();
+        }
+        return $first;
+    }
+
+    public function lastOrDefault(){
+        $last = $this->last();
+        if($last == null){
+            $last = new get_called_class();
+        }
+        return $last;
     }
 
     public function last(){

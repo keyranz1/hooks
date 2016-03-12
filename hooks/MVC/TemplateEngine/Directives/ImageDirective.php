@@ -6,7 +6,7 @@ use Razr\Directive\Directive;
 use Razr\Token;
 use Razr\TokenStream;
 
-class StringDirective extends Directive
+class ImageDirective extends Directive
 {
     /**
      * Constructor.
@@ -16,9 +16,9 @@ class StringDirective extends Directive
 
     public function __construct()
     {
-        $this->name = 'string';
+        $this->name = 'image';
         $this->escape = false;
-        $this->function = "string";
+        $this->function = "image";
     }
 
     /**

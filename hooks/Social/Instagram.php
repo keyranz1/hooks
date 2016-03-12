@@ -7,9 +7,9 @@ class Instagram {
     private $result = [];
     public $access_token = INSTAGRAM_TOKEN; // default access token, optional
     public $count = 10;
-    public $userId = 2256663036;
+    public $userId = INSTAGRAM_UID;
 
-    public function fetch($url){
+    private function fetch($url){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -20,9 +20,11 @@ class Instagram {
     }
 
     function prepare(){
-        $result = json_decode($this->fetch("https://api.instagram.com/v1/users/".$this->userId."/media/recent?".
+        $url = "https://api.instagram.com/v1/users/".$this->userId."/media/recent?".
             "count=" .  $this->count .
-            "&access_token=" . $this->access_token),
+            "&access_token=" . $this->access_token;
+
+        $result = json_decode($this->fetch($url),
             true);
         $this->cleanUp($result);
     }
@@ -60,7 +62,7 @@ class Instagram {
     }
 
     public function getAuthURL(){
-        return "https://instagram.com/oauth/authorize/?client_id=
-        " .INSTAGRAM_APP_ID ."&redirect_uri=https://dev.akitech.org&response_type=token";
+        return "https://instagram.com/oauth/authorize/?client_id="
+        .INSTAGRAM_APP_ID ."&redirect_uri=" . route()->completeURL() . "&response_type=token";
     }
 }

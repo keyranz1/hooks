@@ -2,6 +2,7 @@
 
 namespace hooks\MVC\TemplateEngine\Directives;
 
+use Razr\Directive\Directive;
 use Razr\Token;
 use Razr\TokenStream;
 
@@ -10,7 +11,7 @@ class StringDirective extends Directive
     /**
      * Constructor.
      */
-    private $escape, $function ;
+    private $escape, $function;
 
 
     public function __construct()
@@ -36,11 +37,6 @@ class StringDirective extends Directive
      */
     public function parse(TokenStream $stream, Token $token)
     {
-        //if ($stream->nextIf('str') && $stream->expect('(')) {
-        //return sprintf("echo(%s)", 'string');
-        //return sprintf("\$_defined = array%s; echo(\$this->render(\$_defined[0], array_merge(get_defined_vars(), isset(\$_defined[1]) ? \$_defined[1] : [])))", $this->parser->parseExpression());
-        //}
-
         if ($stream->nextIf($this->name) && $stream->expect('(')) {
 
             $out = sprintf("\$this->getDirective('%s')->call(%s)", $this->name, $stream->test('(') ? 'array' . $this->parser->parseExpression() : '');

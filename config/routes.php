@@ -1,11 +1,9 @@
 <?php
 
-define("routes",
+define("ROUTES",
 [
     "/"=> "Home/index",
-    "404"=> "Errors/error404",
-    "tests/{file}" => "home/tests",
-    "services/{file}" => "home/services",
-    "image/{file}" => "Image/render",
+    "about" => "Home/about",
+    "image/{file}" => "Resources/Image/render"
 ]);
 

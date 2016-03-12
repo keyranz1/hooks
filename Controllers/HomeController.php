@@ -8,19 +8,11 @@
 
 
         public function index(){
-            return view()->pass(["app" => app()]);
-        }
-
-        public function doc(){
             return view();
         }
 
-        public function image(){
-            return view("home/image");
-        }
-
-        public function tests($file){
-            return view("tests/" . $file);
+        public function about(){
+            return view(DEFAULT_VIEW)->title('About');
         }
 
 

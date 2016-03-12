@@ -8,7 +8,7 @@ use hooks\Media\Image;
 use hooks\MVC\Controller;
 use hooks\Storage\FileSystem;
 
-class ImageResourceController extends Controller
+class ImageController extends Controller
 {
 
     public function render($file){

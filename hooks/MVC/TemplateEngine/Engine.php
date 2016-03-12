@@ -2,29 +2,18 @@
 
 namespace hooks\MVC\TemplateEngine;
 
-
-use Razr\Lexer;
+use hooks\MVC\TemplateEngine\Directives\ImageDirective;
+use hooks\MVC\TemplateEngine\Directives\StringDirective;
 use Razr\Loader\LoaderInterface;
-use Razr\Parser;
 
-class IEngine extends \Razr\Engine
+class Engine extends \Razr\Engine
 {
-
-
-    /**
-     * Constructor.
-     *
-     * @param LoaderInterface $loader
-     * @param string          $cachePath
-     */
-    public function __construct(LoaderInterface $loader, $cachePath = null)
+    public function __construct(LoaderInterface $loader, $cachePath)
     {
-        $this->loader    = $loader;
-        $this->lexer     = new Lexer($this);
-        $this->parser    = new Parser($this);
-        $this->cachePath = $cachePath;
+        parent::__construct($loader, $cachePath);
+        $this->addDirective(new StringDirective);
+        $this->addDirective(new ImageDirective);
 
-        $this->addExtension(new Extension);
     }
 
 }

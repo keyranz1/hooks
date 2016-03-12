@@ -1,17 +1,32 @@
-@extend('_layout')
-
-
+@extend('layouts/primary')
 
 @block('content')
 
+<div class="container">
 
-    <div class="container">
+    <div class="text-center">
+        <h1><span class="glyphicon glyphicon-home"></span></h1>
+        <h3>Welcome to Hooks!</h3>
+        <p>
+            Hooks is a powerful PHP7 based framework.
+        </p>
 
-        <h1>Welcome to Hooks!</h1>
+        <img src='@image("assets/images/photo.jpg")' />
 
     </div>
 
+</div>
 
 @endblock
 
 
+@block('style')
+<style>
+
+    h1 span.glyphicon{
+        font-size: 120px;
+        color: cadetblue;
+    }
+
+</style>
+@endblock

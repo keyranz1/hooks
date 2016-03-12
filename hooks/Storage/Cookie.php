@@ -13,17 +13,23 @@ class Cookie implements Storage
         return (self::isItemSet($item)) ? $_COOKIE[$item] : null;
     }
 
-    public static function setItem($item, $value, $time = 604800){ //plus a week
+    public static function setItem($item, $value, $time = 6048000){ //plus a week
         setcookie($item,$value,time() + $time, "/");
     }
 
     public static function removeItem($item){
-        unset($_COOKIE[$item]);
+        setcookie($item, null, time()-3600, "/");
     }
 
     public static function flushItem($item){
         $value = (self::isItemSet($item)) ? $_COOKIE[$item] : null;
         unset($_COOKIE[$item]);
+        return $value;
+    }
+
+    public static function refreshItem($item){ //Refreshes and returns value
+        $value = self::getItem($item);
+        self::setItem($item, $value);
         return $value;
     }
 

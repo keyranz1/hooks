@@ -4,6 +4,7 @@
 namespace hooks\MVC;
 
 
+use hooks\Storage\FileSystem;
 use MatthiasMullie\Minify as Minify;
 
 class MinifyHelper
@@ -20,7 +21,7 @@ class MinifyHelper
         }
 
         foreach ($styles as $style){
-            $minStyle = self::minifyScript($style);
+            $minStyle = self::minifyCSS($style);
             $string = str_replace($style,$minStyle,$string);
         }
 

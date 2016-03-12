@@ -1,10 +1,10 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@($page.title)</title>
-        <meta name="keywords" content="@($page.keywords)" />
-        <meta name="description" content="@($page.metaContent)">
-        <meta name="author" content="@($page.author)">
+        <title>@($MetaPageDetails.title)</title>
+        <meta name="keywords" content="@($MetaPageDetails.keywords)" />
+        <meta name="description" content="@($MetaPageDetails.metaContent)">
+        <meta name="author" content="@($MetaPageDetails.author)">
 
         <base href="@(BASE_URL)">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
@@ -21,8 +21,8 @@
         <!-- Including a component is as easy as below. It matches ViewComponents\NavigationViewComponent as Model and
             Views/_partials/navigation.php as view
          -->
-        @component('navigation')
 
+        @component('navigation')
 
         @block('content')
 

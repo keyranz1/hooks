@@ -3,6 +3,8 @@
 namespace hooks\Storage;
 
 
+use hooks\Media\Image;
+
 class FileSystem
 {
     public static function exists($filePath){
@@ -11,6 +13,7 @@ class FileSystem
 
     public static function getRealPath($filePath){
 
+        $filePath = str_replace("\\" , DIRECTORY_SEPARATOR, $filePath);
         $filePath = str_replace("/" , DIRECTORY_SEPARATOR, $filePath);
         $filePath = DIRECTORY_SEPARATOR . trim($filePath, DIRECTORY_SEPARATOR); //Making things easier
 
@@ -40,6 +43,7 @@ class FileSystem
     public static function isDirectory($file){
         return is_dir(self::getRealPath($file));
     }
+
     public static function isFile($file){
         return is_file(self::getRealPath($file));
     }
@@ -95,7 +99,15 @@ class FileSystem
 
     public static function get($path){
         $realPath = self::getRealPath($path);
-        return file_get_contents($realPath);
+        if(FileSystem::exists($realPath)){
+            return file_get_contents($realPath);
+        }
+        return null;
+    }
+
+    public static function add($path, $data, $glue = ""){
+        $data = FileSystem::get($path) . $glue . $data;
+        return FileSystem::put($path, $data);
     }
 
     public static function put($path, $data){
@@ -107,13 +119,30 @@ class FileSystem
         return file_put_contents($realPath, $data);
     }
 
+    public static function copy($from, $to){
+        $from = self::getRealPath($from);
+        $to = self::getRealPath($to);
+
+        $directory = dirname($from);
+        if(!FileSystem::exists($directory) || !FileSystem::isDirectory($directory)){
+            FileSystem::makeDirectory($directory);
+        }
+
+        $directory = dirname($to);
+        if(!FileSystem::exists($directory) || !FileSystem::isDirectory($directory)){
+            FileSystem::makeDirectory($directory);
+        }
+
+        return copy($from,$to);
+    }
+
     public static function delete($path){
         return unlink(self::getRealPath($path));
     }
 
-    public static function makeDirectory($dir){
+    public static function makeDirectory($dir , $mode = 0777 , $recursive = true){
         try{
-            mkdir ( $dir );
+            mkdir ( $dir , $mode, $recursive );
         } catch (\Exception $e){
             die("Error Making Directory file". $e->getMessage());
         }
@@ -122,6 +151,27 @@ class FileSystem
     public static function isImage($path){
         $type = @exif_imagetype(self::getRealPath($path)); //Support JPG, PNG, GIF choose your own
         return ($type >= 1 && $type <= 3);
+    }
+
+    public static function getContents($path){
+        $path = self::getRealPath($path);
+        if(FileSystem::exists($path)){
+            return array_diff(scandir($path), array('..', '.'));
+        }
+        return [];
+    }
+
+    public static function getImages($path){
+        $items = self::getContents($path);
+        $images = [];
+        $realPath = self::getRealPath($path);
+
+        foreach ($items as $item){
+            if(strpos(mime_content_type( $realPath . "/" . $item) , "image") === 0 ){
+                $images[] = new Image($realPath . "/" . $item);
+            }
+        }
+        return $images;
     }
 
 }

@@ -7,10 +7,14 @@ use hooks\Storage\FileSystem;
 
 class Image extends File
 {
-    protected $path,                  //string
+    public $path;                  //string
+    protected
         $height,                //int
         $width,                 //int
         $preserveAspectRatio = true;  //bool
+
+    public $tempDirectory = "assets/temp-img/";
+    public $tempFile = null;
 
     protected $originalHeight, $originalWidth, $imageType, $resizeRatio;
     protected $thumb;
@@ -21,19 +25,62 @@ class Image extends File
         parent::__construct($path);
     }
 
-    public function src(){
+    public function setPath($path){
+        $this->path = parent::__construct($path);
+    }
 
-        $this->prepare();
-        $temp = $this->tempFileName();
+    public function src($width = null, $height = null, $aspectRatio = null){
 
-        if(!FileSystem::exists( "assets/temp-img/" . $temp)){
-            $this->prepareFromImageType();
-            $this->crop();
+        if($width != null){
+            $this->width($width);
         }
 
-        //URL
-        return BASE_URL . "image/" . $temp;
+        if($height != null){
+            $this->height($height);
+        }
 
+        if($aspectRatio != null){
+            $this->aspect($aspectRatio);
+        }
+
+
+        $tempFile = $this->prepareAndGetFileName();
+        $url = BASE_URL . "image/" . $tempFile;
+
+        if(FileSystem::exists($this->tempDirectory . $tempFile) && FileSystem::isImage($this->tempDirectory . $tempFile)){
+            return $url;
+        } else {
+            return $this->default();
+        }
+    }
+
+    public function fileName(){
+        return basename($this->path);
+    }
+
+    public function prepareAndGetFileName(){
+
+        $this->prepare();
+
+        //if($this->tempFile == null){
+            $this->tempFile = $this->tempFileName();
+
+            if(!FileSystem::exists( $this->tempDirectory .  $this->tempFile)){
+                $this->prepareFromImageType();
+                $this->crop();
+            }
+        //}
+
+        return  $this->tempFile;
+    }
+
+
+    public function default(){
+        $default = "assets/images/default.jpg";
+        if(FileSystem::exists($default) && FileSystem::isImage($default)){
+            return getImageSrc($default, $this->width, $this->height);
+        }
+        return null;
     }
 
     public static function deliver($imageFile){
@@ -69,22 +116,30 @@ class Image extends File
 
     private function prepare(){
 
-        $image_properties = getimagesize($this->path);
+        if(FileSystem::exists($this->path) && FileSystem::isImage($this->path)){
+            $image_properties = getimagesize($this->path);
 
-        $this->originalWidth = $image_properties[0];
-        $this->originalHeight = $image_properties[1];
-        $this->resizeRatio = $this->originalWidth / $this->originalHeight;
-        $this->imageType = $image_properties["mime"];
+            $this->originalWidth = $image_properties[0];
+            $this->originalHeight = $image_properties[1];
+            $this->resizeRatio = $this->originalWidth / $this->originalHeight;
+            $this->imageType = $image_properties["mime"];
 
-        if($this->height === null)
-            $this->height = $this->originalHeight;
-        if($this->width === null)
-            $this->width = $this->originalWidth;
-
-
+            if($this->height === null)
+                $this->height = $this->originalHeight;
+            if($this->width === null)
+                $this->width = $this->originalWidth;
+        }
     }
 
     private function prepareFromImageType(){
+
+        if(
+            !function_exists("imagecreatefromjpeg") ||
+            !function_exists("imagecreatefromgif") ||
+            !function_exists("imagecreatefrompng")
+        ){
+            errorLog("GD Image Library (imagecreatefrom...) is required. Please install.",3);
+        }
 
         switch($this->imageType){
             case "image/jpeg":
@@ -133,11 +188,11 @@ class Image extends File
 
     private function saveTempImage($thumbnail){
 
-        if(!FileSystem::exists("assets/temp-img/")){
-            FileSystem::makeDirectory("assets/temp-img/");
+        if(!FileSystem::exists($this->tempDirectory)){
+            FileSystem::makeDirectory($this->tempDirectory);
         }
 
-        $fileName =  "assets/temp-img/" . $this->tempFileName();
+        $fileName =  $this->tempDirectory . $this->tempFileName();
 
         switch($this->imageType){
 
@@ -192,6 +247,11 @@ class Image extends File
 
 
         $thumbnail = imagecreatetruecolor($this->width, $this->height);
+
+        $whiteBackground = imagecolorallocatealpha($thumbnail, 255, 255, 255, 127);
+        imagefill($thumbnail,0,0,$whiteBackground); // fill the background with white
+
+
         imagecopyresampled($thumbnail, $this->thumb, 0, 0, $crop->x, $crop->y, $this->width, $this->height, $crop->width, $crop->height);
 
         return $thumbnail;
@@ -200,6 +260,11 @@ class Image extends File
     private function cropWithoutPreservingAspectRation(){
 
         $thumbnail = imagecreatetruecolor($this->width, $this->height);
+
+        $whiteBackground = imagecolorallocatealpha($thumbnail, 255, 255, 255, 127);
+        imagefill($thumbnail,0,0,$whiteBackground); // fill the background with white
+
+
         imagecopyresampled($thumbnail, $this->thumb, 0, 0, 0, 0, $this->width, $this->height, $this->originalWidth, $this->originalHeight);
 
         return $thumbnail;
@@ -222,6 +287,31 @@ class Image extends File
         return $this;
     }
 
+
+    public static function parseJPEGSource(string $img){
+
+        $img = str_replace('data:image/jpeg;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $img = base64_decode($img);
+
+        return $img;
+
+    }
+
+    public static function parsePNGSource(string $img){
+
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $img = base64_decode($img);
+
+        return $img;
+
+    }
+
+    public function __toString()
+    {
+        return $this->fileName();
+    }
 
 
 }

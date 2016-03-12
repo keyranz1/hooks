@@ -1,8 +1,6 @@
 
 *.cache
-
 /vendor/
-
 /.idea/
-
-.idea/workspace.xml
+assets/temp-img/
+composer.lock

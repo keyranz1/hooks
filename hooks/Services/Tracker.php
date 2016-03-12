@@ -23,7 +23,6 @@ class Tracker
         } catch (\Exception $e){
 
         }
-
     }
 
     public function getClientIP(){

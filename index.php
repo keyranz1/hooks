@@ -1,6 +1,20 @@
 <?php
 
 
+ob_start();
+
+/*
+    +--------------------------------------------------------------------+
+    +                                                                    +
+    +  Start Collecting Output Buffering.                                +
+    +  Just as a side kick for headers.                                   +
+    +                                                                    +
+    +--------------------------------------------------------------------+
+
+*/
+
+
+
 /*
     +--------------------------------------------------------------------+
     +                                                                    +
@@ -18,48 +32,27 @@
 require_once __DIR__ . '/config/init.php';
 require_once BASE_DIR . '/vendor/autoload.php';
 
+
 /*
     +--------------------------------------------------------------------+
     +                                                                    +
-    +   Blacklisted Users do not get to view the resource. Edit this     +
-    +   on config/constants.php (FORBID_BLACKLISTED_USERS)               +
-    +   tracker() is aliased as hooks\Services\ServerTracker         +
+    +   Let's Route the URL from Route class below:                      +
+    +   Route class is aliased as hooks\MVC\Route                        +
+    +   Configure Routes at : [config/routes.php]                        +
     +                                                                    +
     +--------------------------------------------------------------------+
 
 */
+route()->setRoutes(ROUTES)->deliver();
 
-
-if(FORBID_BLACKLISTED_USERS){
-    if(tracker()->isBlacklisted()){
-        tracker()->kill();
-    }
-}
 
 
 /*
     +--------------------------------------------------------------------+
     +                                                                    +
-    +   Everything Clear? Let's Route the URL from Route class below:    +
-    +   Route class is aliased as hooks\MVC\Route                    +
+    +  Flush out the Output Buffering...                                 +
     +                                                                    +
     +--------------------------------------------------------------------+
 
 */
-
-route()->setRoutes(routes)->deliver();
-
-
-/*
-    +--------------------------------------------------------------------+
-    +                                                                    +
-    +   If TRACK_RESOURCE is enabled, we track Url, IP, User agent and   +
-    +   and the time taken to deliver the resources.                      +
-    +                                                                    +
-    +--------------------------------------------------------------------+
-
-*/
-
-if(TRACK_RESOURCE){
-    tracker()->track();
-}
+ob_flush();

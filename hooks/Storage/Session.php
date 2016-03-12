@@ -26,4 +26,12 @@ class Session implements  Storage
         return $value;
     }
 
+    public static function refreshItem($item){ //Refreshes and returns value
+        $value = self::getItem($item);
+        self::setItem($item, $value);
+        return $value;
+    }
+
+
+
 }

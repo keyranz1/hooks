@@ -17,11 +17,7 @@ class Feed
             ->count(10)
             ->getPosts();
 
-        $blog = new BlogApp();
-        $blogFeed = $blog->feed();
-
-
-        $feed = array_merge($fbFeed,$igFeed, $blogFeed);
+        $feed = array_merge($fbFeed,$igFeed);
         shuffle($feed);
         return $feed;
     }

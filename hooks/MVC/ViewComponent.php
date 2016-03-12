@@ -3,8 +3,8 @@
 namespace hooks\MVC;
 
 
-use Razr\Engine;
-use Razr\Loader\FilesystemLoader;
+use hooks\MVC\TemplateEngine\Engine;
+use hooks\MVC\TemplateEngine\FileSystemLoader;
 
 class ViewComponent extends MinifyHelper
 {
@@ -18,10 +18,7 @@ class ViewComponent extends MinifyHelper
             $this->componentFile = $this->getViewComponentDefaultView();
         }
 
-        $paths = [
-            BASE_DIR . "/views/_components"
-        ];
-        $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/views/.razr-cache" );
+        $razr = new Engine(new FilesystemLoader(), BASE_DIR . "/Views/.cache" );
 
         $output = $razr->render($this->componentFile, $this->registeredVariables);
         echo self::compress($output);
@@ -33,9 +30,9 @@ class ViewComponent extends MinifyHelper
         $function = new \ReflectionClass($this);
         $realClass = $function->getShortName();
 
-        //TestViewComponent => test
+        //TestViewComponent => components/test.php
 
-        return strtolower(explode("ViewComponent",$realClass)[0]);
+        return  "components" . DIRECTORY_SEPARATOR . strtolower(explode("ViewComponent",$realClass)[0]) . VIEWS_EXTENSION;
 
     }
 

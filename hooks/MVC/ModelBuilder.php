@@ -27,7 +27,7 @@ class ModelBuilder{
         foreach ($tablesInDB as $tableName){
             $columns = $db->getColumns($tableName);
             $data = self::GenerateModel($tableName, $columns);
-            self::SaveModel(ucfirst($tableName), $data);
+            self::SaveModel(self::generateModelName($tableName), $data);
             self::DeriveRelations($tablesInDB, $tableName, $columns);
 
         }
@@ -58,7 +58,7 @@ class ModelBuilder{
         $model .= "namespace ".self::$namespace.";\n\n";
         $model .= "use hooks\\MVC\\DBContext;\n\n";
 
-        $model .= "class " . ucfirst($tableName) . " extends DBContext {\n\n";
+        $model .= "class " . self::generateModelName($tableName) . " extends DBContext {\n\n";
 
         //Public Vars
         $model .= "\tpublic ";
@@ -73,12 +73,12 @@ class ModelBuilder{
 
 
         //DB Table
-        $model .= "\tprotected $". "context = \"" . $tableName . "\";\n\n";
+        $model .= "\tpublic static $". "context = \"" . $tableName . "\";\n\n";
 
         //DB Key
         if(isset($primaryKey)){
 
-            $model .= "\tprotected $". "contextPrimaryKey = \"" . $primaryKey . "\";\n\n";
+            $model .= "\tpublic static $". "contextPrimaryKey = \"" . $primaryKey . "\";\n\n";
         }
 
 
@@ -117,7 +117,19 @@ class ModelBuilder{
             }
 
             else if(in_array($col->Field, $tables)){
-                $data[$col->Field] = self::$namespace ."\\" . ucfirst($col->Field);
+                $data[$col->Field] = self::$namespace ."\\" . self::generateModelName($col->Field);
+            }
+
+            else if(in_array($col->Field . "s", $tables)){
+                $data[$col->Field] = self::$namespace ."\\" . self::generateModelName($col->Field);
+            }
+
+            else if(in_array(rtrim($col->Field,"id"), $tables)){
+                $data[$col->Field] = self::$namespace ."\\" . self::generateModelName($col->Field);
+            }
+
+            else if(in_array(rtrim($col->Field,"Id"), $tables)){
+                $data[$col->Field] = self::$namespace ."\\" . self::generateModelName($col->Field);
             }
 
         }
@@ -127,4 +139,12 @@ class ModelBuilder{
         FileSystem::put("Models/.model-cache/". $tableName . ".rln", json_encode($data, JSON_PRETTY_PRINT));
     }
 
+    public static function generateModelName($table){
+        $model = (rtrim($table,"Id"));
+        $model = (rtrim($model,"ID"));
+        $model = (rtrim($model,"id"));
+        $model = (rtrim($model,"_id"));
+        $model = (rtrim($model,"s"));
+        return ucfirst($model);
+    }
 }

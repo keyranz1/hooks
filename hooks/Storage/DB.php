@@ -1,24 +1,25 @@
 <?php
 
-
 namespace hooks\Storage;
+
+use hooks\DataBase\DBConnection;
 
 require_once BASE_DIR.'/config/DBConstants.php';
 
 class DB extends DBWrapper{
 
     protected $pdo = null;
-    public $useTransactions = true;
-    protected $errors = [];
-    protected $results = [];
+    public $useTransactions = false;
+    public $errors = [];
+    public $results = [];
+    public $lastInsertId;
+    protected $statement;
+    protected $sql;
+    protected $params;
 
     public function __construct($host = DB_HOST, $db = DB_NAME, $user = DB_USER, $pass = DB_PASS){
-        try{
-            $this->pdo = new \PDO($host.';dbname='.$db, $user, $pass);
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
-        } catch (\Exception $e){
-            die("Database Connection Failed");
+        if($this->pdo == NULL){
+            $this->pdo = new DBConnection();
         }
     }
 
@@ -31,7 +32,7 @@ class DB extends DBWrapper{
     }
 
     public function lastInsertedId(){
-        return $this->getInstance()->lastInsertId();
+        return $this->lastInsertId;
     }
 
     public function processParams($params){
@@ -91,119 +92,132 @@ class DB extends DBWrapper{
 
     }
 
-    public function getFrom($tbl, $params = array(), $limit = null, $sort = null, $class = null, $select = "*"){
-        $sql = "SELECT " . $select . " FROM ". $tbl;
+    public function getFrom ($tbl, $params = array(), $limit = null, $sort = null, $class = null, $select = "*") : array {
+        $this->sql = "SELECT " . $select . " FROM ". $tbl;
 
         $processedParams = $this->processParams($params);
         if($processedParams === null){
-            $DBParams = [];
+            $this->params = [];
         } else {
-            $DBParams = $processedParams['DBParams'];
-            $sql .= $processedParams['sql'];
+            $this->params = $processedParams['DBParams'];
+            $this->sql .= $processedParams['sql'];
         }
-
 
         if($sort != null){
             $orderKey = array_keys($sort)[0];
             $order = $sort[$orderKey];
-            $sql .= " ORDER BY ". $orderKey . " " . $order;
+            $this->sql .= " ORDER BY ". $orderKey . " " . $order;
         }
-
 
         if($limit !== null){
-            $sql .= " LIMIT ".$limit;
+            $this->sql .= " LIMIT ".$limit;
         }
 
-        $stm = $this->getInstance()->prepare($sql);
-        $stm->execute($DBParams);
-        if($class === null){
-            return $stm->fetchAll(\PDO::FETCH_OBJ);
-        } else {
-            return $stm->fetchAll(\PDO::FETCH_CLASS, $class);
+
+        $this->useTransactions = false;
+        if($this->query($this->sql,$this->params)){
+            if($class === null){
+                $this->results = $this->statement->fetchAll(\PDO::FETCH_OBJ);
+            } else {
+                $this->results =  $this->statement->fetchAll(\PDO::FETCH_CLASS, $class);
+            }
         }
+
+       return $this->results;
+
     }
 
-    public function save($tbl, $fields, $params){
+    public function save($tbl, $fields, $params) : bool {
 
         if($this->exists($tbl, $params)){
-            return $this->updateTo($tbl, $fields, $params);
+            $response = $this->updateTo($tbl, $fields, $params);
         } else {
-            return $this->insertTo($tbl, $fields);
+            $response = $this->insertTo($tbl, $fields);
         }
+
+        $this->lastInsertId = $this->getInstance()->lastInsertId();
+
+        if($response){
+            return $this->commit();
+        }
+
+
+        return false;
+
     }
 
-    public function insertTo($tbl, $fields){
-        $sql = "INSERT INTO " . $tbl ;
+    public function insertTo($tbl, $fields) : bool{
+        $this->sql = "INSERT INTO " . $tbl ;
         $keys = ""; $vals = "";
 
-        $DBparams = array();
+        $this->params = [];
 
         foreach ($fields as $key => $val){
             $keys .= $key .", ";
             $vals .= ":" . $key .", ";
-            $DBparams[ ":" . $key ] = $val;
+            $this->params[ ":" . $key ] = $val;
         }
 
         $keys = rtrim($keys,", ");
         $vals = rtrim($vals,", ");
 
-        $sql .= " (" . $keys . ") VALUES (" . $vals .")";
+        $this->sql .= " (" . $keys . ") VALUES (" . $vals .")";
 
-        $this->query($sql,$DBparams);
+        return $this->query($this->sql,$this->params);
     }
 
-    public function updateTo($tbl, $fields, $params, $limit = null){
-        $sql = "UPDATE " . $tbl ." SET" ;
+    public function updateTo($tbl, $fields, $params, $limit = null) : bool {
 
-        $DBParams = array();
+        $this->sql = "UPDATE " . $tbl ." SET" ;
+        $this->params = [];
 
         foreach ($fields as $key => $val){
-            $sql .= " " . $key ." = " . ":".$key . ", ";
-            $DBParams[ ":" . $key ] = $val;
+            $this->sql .= " " . $key ." = " . ":".$key . ", ";
+            $this->params[ ":" . $key ] = $val;
         }
 
-        $sql = rtrim($sql,", ");
+        $this->sql = rtrim($this->sql,", ");
 
         $processedParams = $this->processParams($params);
+
         if($processedParams !== null){
-            $DBParams = array_merge($DBParams,$processedParams['DBParams']);
-            $sql .= $processedParams['sql'];
+            $this->params = array_merge($this->params,$processedParams['DBParams']);
+            $this->sql .= $processedParams['sql'];
         }
 
 
         if($limit !== null){
-            $sql .= " LIMIT ".$limit;
+            $this->sql .= " LIMIT ".$limit;
         }
 
-        return $this->query($sql,$DBParams);
+        return $this->query($this->sql, $this->params );
     }
 
-    public function deleteFrom($tbl, $params = array(), $limit = null){
-        $sql = "DELETE FROM ". $tbl;
+    public function deleteFrom($tbl, array $params = null, $limit = null) : bool {
+        $this->sql = "DELETE FROM ". $tbl;
 
         $processedParams = $this->processParams($params);
-        if($processedParams === null){
-            $DBParams = [];
-        } else {
-            $DBParams = $processedParams['DBParams'];
-            $sql .= $processedParams['sql'];
-        }
 
+        if($processedParams === null){
+            $this->params = [];
+        } else {
+            $this->params = $processedParams['DBParams'];
+            $this->sql .= $processedParams['sql'];
+        }
 
         if($limit !== null){
-            $sql .= " LIMIT ".$limit;
+            $this->sql .= " LIMIT ".$limit;
         }
 
-        return $this->query($sql,$DBParams);
+        return $this->query($this->sql,$this->params);
     }
 
     public function exists($tbl,$params){
-        $items = $this->getFrom($tbl,$params);
-        if(count($items) >= 1){
-            return true;
-        } else {
-            return false;
-        }
+
+        //New Instance of db() so that it doesnot change existing
+        $items = db()->getFrom($tbl,$params);
+
+        return count($items) > 0;
     }
 
     public function filter($array, $key){
@@ -245,17 +259,23 @@ class DB extends DBWrapper{
         }
     }
 
-    public function query(string $sql, array $params = []){
+    public function query($sql, $params){
+        if($this->prepareStatement($sql, $params)){
+            return $this->commit();
+        }
+        return false;
+    }
 
-        if($this->useTransactions){
+    public function prepareStatement($sql, $params = []) : bool {
+
+        if($this->useTransactions && !($this->getInstance()->inTransaction())){
             $this->getInstance()->beginTransaction();
         }
 
-        $stm = $this->getInstance()->prepare($sql);
+        $this->statement = $this->getInstance()->prepare($sql);
 
         try{
-            $stm->execute($params);
-            return $stm->fetchAll(\PDO::FETCH_OBJ);
+            return $this->statement->execute($params);
         } catch (\PDOException $e){
             $this->errors[] = $e->getMessage();
             return false;
@@ -264,7 +284,17 @@ class DB extends DBWrapper{
     }
 
     public function commit(){
-        $this->getInstance()->commit();
+        if($this->getInstance()->inTransaction()){
+            if( !$this->getInstance()->commit() ){
+                $this->rollback();
+                errorLog("DB Transaction Failed. Event Rolled Back.",2);
+            }
+        }
+        return true;
+    }
+
+    public function rollback(){
+        $this->getInstance()->rollBack();
     }
 
 }

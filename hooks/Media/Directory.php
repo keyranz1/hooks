@@ -7,7 +7,7 @@ use hooks\Storage\FileSystem;
 
 class Directory
 {
-    protected $path;
+    public $path;
 
     public function __construct($path)
     {

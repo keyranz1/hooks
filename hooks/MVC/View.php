@@ -4,10 +4,10 @@
 namespace hooks\MVC;
 
 
+use hooks\MVC\TemplateEngine\Engine;
+use hooks\MVC\TemplateEngine\FileSystemLoader;
 use hooks\Storage\FileSystem;
 use hooks\Storage\Globals;
-use Razr\Engine;
-use Razr\Loader\FilesystemLoader;
 
 class View extends MinifyHelper
 {
@@ -53,31 +53,33 @@ class View extends MinifyHelper
         $method = strtolower(Globals::getItem("method"));
 
         $filePath = BASE_DIR . "/Views/" .  $controller . "/" . $method . ".php";
+        $filePath = str_replace("\\", DIRECTORY_SEPARATOR, $filePath);
+
+        if(!FileSystem::exists($filePath)){
+            errorLog("View not found for " . $controller . "/" . $method , 2);
+        }
+
         self::includeRequestedView($filePath);
     }
 
-
     public function printView($filePath){
-        $controller = strtolower(Globals::getItem("controller"));
-        $paths = [
-            BASE_DIR . "/Views/_shared",
-            BASE_DIR . "/Views/" . $controller
-        ];
 
-        if(!FileSystem::exists(BASE_DIR . "/Views/.razr-cache")){
-            FileSystem::makeDirectory(BASE_DIR . "/Views/.razr-cache");
+
+        if(!FileSystem::exists(BASE_DIR . "/Views/.cache")){
+            FileSystem::makeDirectory(BASE_DIR . "/Views/.cache");
         }
 
-        $razr = new Engine(new FilesystemLoader($paths), BASE_DIR . "/Views/.razr-cache" );
+        $razr = new Engine(new FileSystemLoader(), BASE_DIR . "/Views/.cache" );
 
         $page = new \stdClass();
         $page->title = $this->title;
         $page->author = $this->author;
         $page->metaContent = $this->metaContent;
 
-        $this->registeredVariables["page"] = $page;
+        $this->registeredVariables["MetaPageDetails"] = $page;
 
         $output = $razr->render($filePath, $this->registeredVariables);
+        //echo $output;
         echo self::compress($output);
     }
 
